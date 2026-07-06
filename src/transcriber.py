@@ -19,6 +19,9 @@ TXT_DIR.mkdir(parents=True, exist_ok=True)
 def transcribe_file(audio_file):
 
     try:
+
+        audio_file = Path(audio_file)
+
         print(f"Processing: {audio_file.name}")
 
         segments, info = model.transcribe(
@@ -42,7 +45,7 @@ def transcribe_file(audio_file):
 
         output_file.write_text(transcript, encoding="utf-8")
 
-        return True, audio_file.name
+        return str(output_file)
 
     except Exception as e:
 
@@ -55,4 +58,4 @@ def transcribe_file(audio_file):
 
         print(f"FAILED: {audio_file.name}")
 
-        return False, audio_file.name
+        return ""
