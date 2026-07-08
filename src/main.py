@@ -1,6 +1,7 @@
 from scanner import scan_audio
 from transcriber import transcribe_file
 from database import Database
+from pipeline import Pipeline
 
 print("=" * 60)
 print(" Rao Call Intelligence Suite ")
@@ -8,6 +9,8 @@ print("=" * 60)
 
 # Connect Database
 db = Database()
+
+pipeline = Pipeline(db)
 
 print("Database Connected\n")
 
@@ -30,31 +33,12 @@ print(f"Pending Files : {len(pending)}\n")
 
 for audio in pending:
 
-    try:
+    print("-------------------------------------------")
+    print(audio)
 
-        print("-------------------------------------------")
-        print(audio)
+    pipeline.process(audio)
 
-        result = transcribe_file(audio)
-
-        db.update(
-            filepath=audio,
-            status="Completed",
-            transcript=result
-        )
-
-        print("Completed\n")
-
-    except Exception as e:
-
-        db.update(
-            filepath=audio,
-            status="Failed",
-            error=str(e)
-        )
-
-        print(e)
-
+    print()
 db.close()
 
 print("=" * 60)

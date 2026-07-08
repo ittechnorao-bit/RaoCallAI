@@ -1,0 +1,29 @@
+{
+    "project_name": "Rao Call Intelligence Suite",
+    "version": "2.2.0",
+
+    "folders": {
+        "audio": "sample_calls",
+        "transcripts": "transcripts",
+        "translations": "translations",
+        "reports": "reports",
+        "exports": "exports",
+        "logs": "logs",
+        "database": "database"
+    },
+
+    "transcription": {
+        "language": "auto",
+        "beam_size": 1,
+        "vad_filter": true
+    },
+
+    "translation": {
+        "enabled": true,
+        "target_language": "English"
+    },
+
+    "ai": {
+        "enabled": false
+    }
+}
