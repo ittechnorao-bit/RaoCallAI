@@ -1,21 +1,36 @@
-class Translator:
-    """
-    RCIS Translation Module
+import requests
 
-    Version: 2.2
-    """
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL_NAME = "qwen3:4b"
 
-    def __init__(self):
-        pass
 
-    def translate(self, text):
-        """
-        Placeholder translator.
-        For now, returns the original text unchanged.
-        Later, this will use an offline or online translation engine.
-        """
+def translate_to_english(text):
 
-        if text is None:
-            return ""
+    if not text.strip():
+        return ""
 
-        return text
+    prompt = f"""
+Translate the following text into natural English.
+
+Rules:
+- Translate only.
+- Do not explain.
+- Do not add comments.
+- If the text is already English, return it unchanged.
+
+Text:
+
+{text}
+"""
+
+    response = requests.post(
+        OLLAMA_URL,
+        json={
+            "model": MODEL_NAME,
+            "prompt": prompt,
+            "stream": False
+        },
+        timeout=1800
+    )
+
+    return response.json()["response"].strip()
